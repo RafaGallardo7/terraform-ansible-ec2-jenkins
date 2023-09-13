@@ -6,4 +6,4 @@
 .terraform.lock.hcl
 .terraform/
 WebApp
-NginxApp
+JenkinsApp

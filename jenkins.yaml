@@ -1,0 +1,60 @@
+---
+- name: Install Jenkins on Ubuntu on EC2
+  hosts: all
+  become: true
+  tasks:
+    - name: Update apt-get Repository And Cache
+      apt:
+        update_cache: yes
+        force_apt_get: yes
+        cache_valid_time: 3600
+
+    - name: Install curl
+      apt:
+        name: curl
+        state: present
+
+    - name: Install Jenkins Key
+      apt_key:
+        url: https://pkg.jenkins.io/debian/jenkins.io-2023.key
+        state: present
+
+    - name: Configure Jenkins Repo
+      apt_repository:
+        repo: 'deb https://pkg.jenkins.io/debian-stable binary/'
+        state: present
+
+    - name: Install Java
+      apt:
+        name: openjdk-17-jre
+        state: present
+
+    - name: Update apt-get Repository And Cache
+      apt:
+        update_cache: yes
+        force_apt_get: yes
+        cache_valid_time: 3600
+
+    - name: Install Jenkins
+      apt:
+        name: jenkins
+        state: present
+
+    - name: Start Jenkins
+      systemd:
+        name: jenkins
+        state: started
+
+    - name: Enable Jenkins
+      systemd:
+        name: jenkins
+        enabled: true
+
+    - name: Init Password Jenkins
+      shell: cat /var/lib/jenkins/secrets/initialAdminPassword
+      changed_when: false
+      register: result
+
+    - name: print init password jenkins
+      debug:
+        var: result.stdout

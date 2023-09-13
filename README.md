@@ -1,6 +1,6 @@
-# terraform-ansible-ec2-nginx
+# terraform-ansible-ec2-jenkins
 
-This simple project automate the installation of Nginx in a AWS EC2 instance using Terraform and Ansible
+This simple project automate the installation of Jenkins in a AWS EC2 instance using Terraform and Ansible
 
 ## Configure AWS
 ### first of all you need to install:
@@ -25,4 +25,4 @@ then you will have to define your AWS_ACCESS_KEY, AWS_SECRET_KEY and AWS_REGION
 ## To destroy infrastructure
 ```terraform destroy```
 
-now you can check in the browser if Nginx was successfully installed 
+now you can check in the browser if Jenkins was successfully installed 

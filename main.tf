@@ -1,5 +1,5 @@
 # To create one security group
-resource "aws_security_group" "nginx_sec_group" {
+resource "aws_security_group" "jenkins_sec_group" {
   name        = "web_app"
   description = "security group"
 
@@ -11,8 +11,8 @@ resource "aws_security_group" "nginx_sec_group" {
   }
 
   ingress {
-    from_port   = 80
-    to_port     = 80
+    from_port   = 8080
+    to_port     = 8080
     protocol    = "tcp"
     cidr_blocks = ["0.0.0.0/0"]
   }
@@ -52,7 +52,7 @@ resource "local_file" "private_key" {
 }
 
 # Create a EC2 instance
-resource "aws_instance" "nginx_ec2" {
+resource "aws_instance" "jenkins_ec2" {
   ami           = local.ami 
   instance_type = local.instance_type  
   key_name      = aws_key_pair.key_pair.key_name
@@ -63,6 +63,6 @@ resource "aws_instance" "nginx_ec2" {
   }
 
   provisioner "local-exec" {
-    command = "ansible-playbook -i '${aws_instance.nginx_ec2.public_ip},' --user ubuntu --private-key ${local.key_name} nginx.yaml"
+    command = "ansible-playbook -i '${aws_instance.jenkins_ec2.public_ip},' --user ubuntu --private-key ${local.key_name} jenkins.yaml"
   }
 }
